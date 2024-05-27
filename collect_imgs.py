@@ -2,6 +2,7 @@ import os
 
 import cv2
 
+## Creates a directory of images with the different hand signs
 
 DATA_DIR = './data'
 if not os.path.exists(DATA_DIR):
