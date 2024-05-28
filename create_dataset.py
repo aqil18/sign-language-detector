@@ -1,4 +1,6 @@
 import os
+# To save data/datasets
+import pickle
 # To create landmarks
 import mediapipe as mp
 # To collect data from the camera
@@ -16,6 +18,9 @@ hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)
 
 DATA_DIR = './data'
 
+data = []
+labels = []
+
 for dir_ in os.listdir(DATA_DIR):
     for img_path in os.listdir(os.path.join(DATA_DIR, dir_))[:1]:
         data_aux = []
@@ -30,15 +35,26 @@ for dir_ in os.listdir(DATA_DIR):
         # Detect all the landmarks of the rgb image using hands model
         results = hands.process(img_rgb)
 
-        # Draw out the landmarks
-        for hand_landmarks in results.multi_hand_landmarks:
-            mp_drawing.draw_landmarks(
-                img_rgb, # img to draw
-                hand_landmarks, # The landmark identified in results
-                mp_hands.HAND_CONNECTIONS, # Hand connections
-                mp_drawing_styles.get_default_hand_landmarks_style(),
-                mp_drawing_styles.get_default_hand_connections_style()
-            )
+        if results.multi_hand_landmarks: # If you detect a hand
+            for hand_landmarks in results.multi_hand_landmarks: # Loop through each detected hand
+                # Draw out the landmarks
+                # mp_drawing.draw_landmarks(
+                #     img_rgb, # img to draw
+                #     hand_landmarks, # The landmark identified in results
+                #     mp_hands.HAND_CONNECTIONS, # Hand connections
+                #     mp_drawing_styles.get_default_hand_landmarks_style(),
+                #     mp_drawing_styles.get_default_hand_connections_style()
+                # )
+                
+                # Create an array of xyz values of landmarks to train the classifier with
+                for i in range(len(hand_landmarks.landmark)): # Loop through each landmark in hand
+                    x = hand_landmarks.landmark[i].x
+                    y = hand_landmarks.landmark[i].y
+                    data_aux.append(x)
+                    data_aux.append(y)
+
+            data.append(data_aux) # Append a new array for each class
+            labels.append(dir_)   # Append class number 
 
         # Matplotlib also requires images in rgb 
         plt.figure()
@@ -46,3 +62,7 @@ for dir_ in os.listdir(DATA_DIR):
         plt.imshow(img_rgb)
 
 plt.show()
+
+f = open('data.pickle', 'wb') # open new file in binary
+pickle.dump({'data': data, 'labels': labels}, f) # Create a dictionary with data arrays and labels
+f.close()
