@@ -22,7 +22,7 @@ data = []
 labels = []
 
 for dir_ in os.listdir(DATA_DIR):
-    for img_path in os.listdir(os.path.join(DATA_DIR, dir_))[:1]:
+    for img_path in os.listdir(os.path.join(DATA_DIR, dir_)):
         data_aux = []
 
         x_ = []
@@ -57,12 +57,12 @@ for dir_ in os.listdir(DATA_DIR):
             labels.append(dir_)   # Append class number 
 
         # Matplotlib also requires images in rgb 
-        plt.figure()
-        # Plot the images in x and y axis
-        plt.imshow(img_rgb)
+#         plt.figure()
+#         # Plot the images in x and y axis
+#         plt.imshow(img_rgb)
 
-plt.show()
+# plt.show()
 
-f = open('data.pickle', 'wb') # open new file in binary
-pickle.dump({'data': data, 'labels': labels}, f) # Create a dictionary with data arrays and labels
-f.close()
+file = open('data.pickle', 'wb') # open new file in binary
+pickle.dump({'data': data, 'labels': labels}, file) # Create a dictionary with data arrays and labels
+file.close()
