@@ -35,8 +35,11 @@ while True:
 
     # Detect all the landmarks of the rgb image using hands model
     results = hands.process(frame_rgb)
+
+    # If you detect a hand
     if results.multi_hand_landmarks:
         for hand_landmarks in results.multi_hand_landmarks:
+            # Draw out the hand landmarks 
             mp_drawing.draw_landmarks(
                 frame,  # image to draw
                 hand_landmarks,  # model output
@@ -44,8 +47,9 @@ while True:
                 mp_drawing_styles.get_default_hand_landmarks_style(),
                 mp_drawing_styles.get_default_hand_connections_style())
 
-        for hand_landmarks in results.multi_hand_landmarks:
-            for i in range(len(hand_landmarks.landmark)):
+
+        for hand_landmarks in results.multi_hand_landmarks: # Iterate through hands
+            for i in range(len(hand_landmarks.landmark)): # Iterate through landmarks in hand
                 x = hand_landmarks.landmark[i].x
                 y = hand_landmarks.landmark[i].y
 
@@ -58,16 +62,21 @@ while True:
                 data_aux.append(x - min(x_))
                 data_aux.append(y - min(y_))
 
+        # Calculations for a box around the hand
         x1 = int(min(x_) * W) - 10
         y1 = int(min(y_) * H) - 10
 
         x2 = int(max(x_) * W) - 10
         y2 = int(max(y_) * H) - 10
 
-        prediction = model.predict([np.asarray(data_aux)])
+        # predict our class using data aux x and y
+        prediction = model.predict([np.asarray(data_aux)]) 
 
+        # Convert prediction into sign language class
         predicted_character = labels_dict[int(prediction[0])]
 
+
+        # Draw out out prediction
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4)
         cv2.putText(frame, predicted_character, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3,
                     cv2.LINE_AA)
