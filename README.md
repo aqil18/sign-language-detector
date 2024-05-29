@@ -15,6 +15,6 @@ Using python, meadiapipe and opencv I was able to analyse data from the webcam a
     4. test_classifier (Final file that should run the model in real time)
 
 ## Example Images
-![A Class](examples\A Masked.jpg)
-![B Class](examples/B Masked.jpg)
-![L Class](/examples/L Masked.jpg)
+![A Class](./examples/A_Masked.jpg)
+![B Class](./examples/B_Masked.jpg)
+![L Class](./examples/L_Masked.jpg)
