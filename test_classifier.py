@@ -53,18 +53,18 @@ while True:
                 x = hand_landmarks.landmark[i].x
                 y = hand_landmarks.landmark[i].y
 
+                data_aux.append(x)
+                data_aux.append(y)
+                
                 x_.append(x)
                 y_.append(y)
 
-            for i in range(len(hand_landmarks.landmark)):
-                x = hand_landmarks.landmark[i].x
-                y = hand_landmarks.landmark[i].y
-                data_aux.append(x - min(x_))
-                data_aux.append(y - min(y_))
+
+
 
         # Calculations for a box around the hand
         x1 = int(min(x_) * W) - 10
-        y1 = int(min(y_) * H) - 10
+        y1 = int(min(y_) * H) - 10 # Find bottom corner of hand rectangle
 
         x2 = int(max(x_) * W) - 10
         y2 = int(max(y_) * H) - 10
@@ -77,11 +77,11 @@ while True:
 
 
         # Draw out out prediction
-        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4)
+        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4) # 000 is black colour, 4 is thickness
         cv2.putText(frame, predicted_character, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3,
-                    cv2.LINE_AA)
+                    cv2.LINE_AA) # Paste our prediction
 
-    cv2.imshow('frame', frame)
+    cv2.imshow('frame', frame) # Show our final processed frame
     cv2.waitKey(1) # Wait a second until next frame
 
 

@@ -25,8 +25,6 @@ for dir_ in os.listdir(DATA_DIR):
     for img_path in os.listdir(os.path.join(DATA_DIR, dir_)):
         data_aux = []
 
-        x_ = []
-        y_ = []
 
         # Mediapipe requires images to be in rgb so we must convert
         img = cv2.imread(os.path.join(DATA_DIR, dir_, img_path))
