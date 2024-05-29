@@ -37,14 +37,6 @@ for dir_ in os.listdir(DATA_DIR):
 
         if results.multi_hand_landmarks: # If you detect a hand
             for hand_landmarks in results.multi_hand_landmarks: # Loop through each detected hand
-                # Draw out the landmarks
-                # mp_drawing.draw_landmarks(
-                #     img_rgb, # img to draw
-                #     hand_landmarks, # The landmark identified in results
-                #     mp_hands.HAND_CONNECTIONS, # Hand connections
-                #     mp_drawing_styles.get_default_hand_landmarks_style(),
-                #     mp_drawing_styles.get_default_hand_connections_style()
-                # )
                 
                 # Create an array of xyz values of landmarks to train the classifier with
                 for i in range(len(hand_landmarks.landmark)): # Loop through each landmark in hand
